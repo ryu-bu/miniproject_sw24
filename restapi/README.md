@@ -12,7 +12,11 @@ source env/bin/activate
 ```
 pip install -r requirements.txt
 ```
-4. Run the application
+4. Add .env file in this directory. Put following into the file:
+```
+API_KEY=your_fda_api_key
+```
+5. Run the application
 ```
 python3 app.py
 ```

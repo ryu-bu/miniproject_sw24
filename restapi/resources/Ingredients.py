@@ -1,11 +1,16 @@
 from flask_restful import Resource
 from flask import request, jsonify
-import requests
+import requests, os
+from dotenv import load_dotenv
 
 class Ingredients(Resource):
     client_record = []
-    key = "8Go1adfzZpm9tD0UpPu1X2WW5enGqSehh3eouKIl"
+    key = ""
     url_template = "https://api.nal.usda.gov/fdc/v1/foods/search?pageSize=1&query="
+
+    def __init__(self):
+        load_dotenv()
+        self.key = os.getenv('API_KEY')
 
     def get(self):
         return jsonify(self.client_record)
