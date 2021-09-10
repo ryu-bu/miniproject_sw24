@@ -12,6 +12,9 @@ web-build/
 # macOS
 .DS_Store
 
+# vs code
+.vscode
+
 # python
 # Byte-compiled / optimized / DLL files
 __pycache__/
