@@ -17,10 +17,17 @@ class Ingredients(Resource):
 
     def post(self):
         arg = request.args
+        post_method = arg['type']
         servings = int(arg['servings'])
         item = request.get_json()
 
         calories = 0
+        record_type = ""
+        product_name = ""
+        ingredient_list = []
+
+        if not post_method:
+            return {"message": "no type"}
 
         if not servings:
             return {"message": "no serving"}
@@ -28,23 +35,41 @@ class Ingredients(Resource):
         if not item:
             return {"message": "no input"}
 
-        for ingredient in item["ingredients"]:
-            url = f"{self.url_template}{ingredient}&api_key={self.key}"
-            r = requests.get(url)
-            food = r.json()["foods"][0]
-            for nutrient in food["foodNutrients"]:
-                if nutrient["nutrientName"] == "Energy":
-                    calories += nutrient["value"]
+        if post_method == "barcode":
+            barcode = item['barcode']
 
-        print(calories)
+            calories, product_name = self._get_calories(barcode)
+            record_type = "product"
+
+        if post_method == "ingredients":
+            ingredient_list = item["ingredients"]
+            for ingredient in ingredient_list:
+                calorie, ignored_name = self._get_calories(ingredient)
+                calories += calorie
+            record_type = "ingredients"
+
         total_calories = calories * servings
 
         self.client_record.append({
             "name": item["name"],
             "email": item["email"],
-            "ingredients": item["ingredients"],
+            "type": record_type,
+            "product_name": product_name,
+            "ingredients": ingredient_list,
             "servings": servings,
             "total_calories": total_calories
         })
 
         return {"message": "success", "calories": total_calories}, 201
+
+    def _get_calories(self, name):
+        calories = 0
+        url = f"{self.url_template}{name}&api_key={self.key}"
+        r = requests.get(url)
+        food = r.json()["foods"][0]
+        name = food["description"]
+        for nutrient in food["foodNutrients"]:
+            if nutrient["nutrientName"] == "Energy":
+                calories += int(nutrient["value"])
+
+        return (calories, name)

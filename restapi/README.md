@@ -26,18 +26,40 @@ python3 app.py
 Endpoints:<br>
 - /calories-record/
     - GET: Returns the record that contains client's name, email, ingredients, and the total calories. 
-    - POST: Accepts JSON and call FDA API to calculate the total calories based on the incoming ingredients. Returns the total calories in its message if successful. Accepts the following JSON format:
-    ```
-    {
-        "name": "string",
-        "email": "string",
-        "ingredients": ["string1", "string2"]
-    }
-    ``` 
-    Returns the following message:
-    ```
-    {
-        "message": "string",
-        "calories": int / float
-    }
-    ```
+        Returns the following JSON
+        ```
+        {
+            "name": "string",
+            "email": "string",
+            "type":"string"
+            "ingredients": [],
+            "product_name": "string",
+            "servings": int,
+            "total_calories": int
+        }
+        ```
+    - POST: Accepts JSON and call FDA API to calculate the total calories based on the incoming ingredients. Returns the total calories in its message if successful.
+            Requires two arguments: servings and type. Type is either ingredients and barcode.
+            Barcode POST request:
+            ```
+            {
+                "name": "string",
+                "email": "string",
+                "ingredients": ["string1", "string2"]
+            }
+            ``` 
+            Ingredients POST request:
+            ```
+            {
+                "name": "string",
+                "email": "string",
+                "barcode": "string"
+            }
+            ``` 
+            Returns the following message:
+            ```
+            {
+                "message": "string",
+                "calories": int or float
+            }
+            ```
