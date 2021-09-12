@@ -4,7 +4,6 @@ Folder tree<br>
 ├── README.md
 ├── app
 │   ├── App.js
-│   ├── README.md
 │   ├── app.json
 │   ├── assets
 │   │   ├── adaptive-icon.png
@@ -12,21 +11,23 @@ Folder tree<br>
 │   │   ├── icon.png
 │   │   └── splash.png
 │   ├── babel.config.js
+│   ├── config.js
 │   ├── package.json
-│   ├── src
-│   │   └── firebase
-│   │       └── config.js
+│   ├── screens
+│   │   ├── LoadingScreen.js
+│   │   ├── LoginScreen.js
+│   │   └── MainScreen.js
 │   └── yarn.lock
 └── restapi
     ├── README.md
     ├── app.py
     ├── models
-    │   └── ingredient_model.py 
+    │   └── ingredient_model.py
     ├── requirements.txt
     └── resources
         └── Ingredients.py
 
-7 directories, 17 files
+6 directories, 19 files
 ```
 
 The app folder contains the REACT native application, and the restapi folder contains the REST API application. <br>
