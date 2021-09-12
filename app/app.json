@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "miniproject_sw24",
-    "slug": "miniproject_sw24",
+    "name": "app",
+    "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
