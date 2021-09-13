@@ -3,16 +3,15 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import firebase from 'firebase';
 import { TextInput } from 'react-native-gesture-handler';
 
-export default function MainScreen({navigation})  {
+export default function Ingredients()  {
     const [serving, setServing] = React.useState('');
+    const []
     return (
         <View style={styles.container}>
-            <Text>MainScreen</Text>
-            <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
+            <Text>Ingredients</Text>
             <Button title="Show User" onPress={() => showName()} />
             <TextInput placeholder="Serving" onChangeText={serving => setServing(serving)} />
             <Button title="test" onPress={() => alert(serving)} />
-            <Button title="Type Ingredients Manually" onPress={() => navigation.navigate('Ingredients')} />
         </View>
     )
 }

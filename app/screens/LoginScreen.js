@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
+import 'firebase/firestore';
 import { iosClientConfig } from '../config';
 
 class LoginScreen extends React.Component {
@@ -57,10 +58,15 @@ class LoginScreen extends React.Component {
                     }) 
                 } else {
                     console.log("existing user")
-                    firebase.database().ref('/users/' + result.user.uid)
-                    .update({
-                        last_logged_in: Date.now()
+                    // firebase.database().ref('/users/' + result.user.uid)
+                    // .update({
+                    //     last_logged_in: Date.now()
+                    // })
+                    firebase.firestore().collection("calories-records").doc("test")
+                    .set({
+                        email: result.user.email
                     });
+                    
                 }
             })
             .catch((error) => {
