@@ -20,6 +20,7 @@ export default function MainScreen() {
   const handleBarCodeScanned = ({ type, data }) => {
       setScanned(true);
       alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+      console.log(data)
   };
 
   if (hasPermission === null) {
@@ -40,7 +41,6 @@ export default function MainScreen() {
 
   return (
       <View style={styles.container}>
-          <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
           <View style={styles.barcodebox}>
           <BarCodeScanner
               onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -48,6 +48,7 @@ export default function MainScreen() {
           </View>
           <Text style={styles.maintext}>{text}</Text>
           {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)}/>}
+          <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
       </View>
   );
 };
