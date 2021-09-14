@@ -56,8 +56,9 @@ export default function MainScreen({navigation}) {
           <Text style={styles.maintext}>{text}</Text>
           {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)}/>}
             <TextInput placeholder="Serving" onChangeText={serving => setServing(serving)} />
-            <Button title="Get Calories" onPress={() => getCalories(barcode, serving)} />
+            <Button title="Get Calories" onPress={() => getCalories("044100101892", serving)} />
             <Button title="Type Ingredients Manually" onPress={() => navigation.navigate('Ingredients')} />
+            <Button title="Show History" onPress={() => navigation.navigate('HistoryScreen')} />
           <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
       </View>
   );
@@ -78,6 +79,7 @@ function getCalories(barcode, servings) {
                     .set({
                         barcode: barcode,
                         product_name: res.data.product_name,
+                        servings: servings,
                         calories: res.data.calories,
                         record_time: Date.now()
                     });

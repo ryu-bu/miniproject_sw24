@@ -6,6 +6,7 @@ import LoginScreen from './screens/LoginScreen';
 import LoadingScreen from './screens/LoadingScreen';
 import MainScreen from './screens/MainScreen';
 import Ingredients from './screens/Ingredients';
+import HistoryScreen from './screens/HistoryScreen';
 import firebase from 'firebase';
 
 import { firebaseConfig } from './config';
@@ -23,7 +24,8 @@ const AppSwitchNavigator = createSwitchNavigator({
   LoadingScreen: LoadingScreen,
   LoginScreen: LoginScreen,
   MainScreen: MainScreen,
-  Ingredients: Ingredients
+  Ingredients: Ingredients,
+  HistoryScreen: HistoryScreen
 });
 
 const AppNavigator = createAppContainer(AppSwitchNavigator);
