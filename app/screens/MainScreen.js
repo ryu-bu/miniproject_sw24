@@ -25,6 +25,11 @@ export default function MainScreen({navigation}) {
   // barcode scanned
   const handleBarCodeScanned = ({ type, data }) => {
       setScanned(true);
+
+      // in case the barcode length is more than 13
+      if (data.length > 12) {
+        data = data.slice(data.length - 12)
+    }
       alert(`Bar code with type ${type} and data ${data} has been scanned!`);
       setBarcode(data);
       console.log(data);
@@ -86,6 +91,7 @@ function getCalories(barcode, servings) {
         })
         .catch((err) => {
             console.log(err);
+            alert("No such UPC in FDC site or no input!")
         })
 }
 
