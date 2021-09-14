@@ -44,7 +44,7 @@ class Ingredients(Resource):
         if post_method == "ingredients":
             ingredient_list = item["ingredients"]
             for ingredient in ingredient_list:
-                calorie, ignored_name = self._get_calories(ingredient)
+                calorie, product_name = self._get_calories(ingredient)
                 calories += calorie
             record_type = "ingredients"
 
@@ -60,16 +60,16 @@ class Ingredients(Resource):
             "total_calories": total_calories
         })
 
-        return {"message": "success", "calories": total_calories}, 201
+        return {"message": "success", "calories": total_calories, "product_name": product_name}, 201
 
     def _get_calories(self, name):
         calories = 0
         url = f"{self.url_template}{name}&api_key={self.key}"
         r = requests.get(url)
         food = r.json()["foods"][0]
-        name = food["description"]
+        product_name = food["description"]
         for nutrient in food["foodNutrients"]:
             if nutrient["nutrientName"] == "Energy":
                 calories += int(nutrient["value"])
 
-        return (calories, name)
+        return (calories, product_name)

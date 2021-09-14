@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
+import 'firebase/firestore';
 import { iosClientConfig } from '../config';
 
 class LoginScreen extends React.Component {
@@ -60,7 +61,7 @@ class LoginScreen extends React.Component {
                     firebase.database().ref('/users/' + result.user.uid)
                     .update({
                         last_logged_in: Date.now()
-                    });
+                    })
                 }
             })
             .catch((error) => {
