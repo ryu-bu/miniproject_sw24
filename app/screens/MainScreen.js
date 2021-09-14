@@ -3,12 +3,16 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import firebase from 'firebase';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { TextInput } from 'react-native-gesture-handler';
+import axios from 'react-native-axios';
+import { restApiConfig } from '../config';
+
 
 export default function MainScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [text, setText] = useState('Not Scanned');
   const [serving, setServing] = React.useState('');
+  const [barcode, setBarcode] = React.useState('');
 
   // camera permission
   useEffect(() => {
@@ -22,7 +26,8 @@ export default function MainScreen({navigation}) {
   const handleBarCodeScanned = ({ type, data }) => {
       setScanned(true);
       alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-      console.log(data)
+      setBarcode(data);
+      console.log(data);
   };
 
   if (hasPermission === null) {
@@ -50,18 +55,42 @@ export default function MainScreen({navigation}) {
           </View>
           <Text style={styles.maintext}>{text}</Text>
           {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)}/>}
-          <Button title="Show User" onPress={() => showName()} />
             <TextInput placeholder="Serving" onChangeText={serving => setServing(serving)} />
-            <Button title="test" onPress={() => alert(serving)} />
+            <Button title="Get Calories" onPress={() => getCalories(barcode, serving)} />
             <Button title="Type Ingredients Manually" onPress={() => navigation.navigate('Ingredients')} />
           <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
       </View>
   );
 };
 
+function getCalories(barcode, servings) {
+    const user = firebase.auth().currentUser;
+    axios
+        .post(restApiConfig.ENDPOINT + '/calories-record?type=barcode&servings=' + servings, {
+            name: user.displayName,
+            email: user.email,
+            barcode: barcode
+        })
+        .then((res) => {
+            console.log(res.data);
+            alert(res.data.calories);
+            firebase.firestore().collection("Users").doc(user.uid).collection("calories-record").doc(Date.now().toString())
+                    .set({
+                        barcode: barcode,
+                        product_name: res.data.product_name,
+                        calories: res.data.calories,
+                        record_time: Date.now()
+                    });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
 function showName() {
     const user = firebase.auth().currentUser;
-    alert(user.email)
+    console.log(user);
+    alert(user.displayName)
 }
 
 const styles = StyleSheet.create({

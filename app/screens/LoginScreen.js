@@ -58,15 +58,10 @@ class LoginScreen extends React.Component {
                     }) 
                 } else {
                     console.log("existing user")
-                    // firebase.database().ref('/users/' + result.user.uid)
-                    // .update({
-                    //     last_logged_in: Date.now()
-                    // })
-                    firebase.firestore().collection("calories-records").doc("test")
-                    .set({
-                        email: result.user.email
-                    });
-                    
+                    firebase.database().ref('/users/' + result.user.uid)
+                    .update({
+                        last_logged_in: Date.now()
+                    })
                 }
             })
             .catch((error) => {
