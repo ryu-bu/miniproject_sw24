@@ -106,7 +106,14 @@ class LoginScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Button title="Sign In" onPress={() => this.signInWithGoogleAsync()} />
+              <View style={styles.header}>
+                <Text style={styles.headerText}>NutriScanner</Text>
+                <Text style={styles.subheaderText}>EC463 Mini Project SW-24</Text>
+              </View>
+              <Button title="Sign In" onPress={() => this.signInWithGoogleAsync()} />
+              <View style={styles.footer}>
+                <Text>by Ryuichi and Olivier</Text>
+              </View>
             </View>
         )
     }
@@ -120,5 +127,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  header: {
+    flex: 0,
+    justifyContent: 'flex-end',
+  },
+  headerText: {
+    fontSize: 30,
+    backgroundColor: '#fff',
+    marginLeft: 20,
+  },
+  subheaderText: {
+    marginBottom: 15,
+    fontSize: 12,
+    marginLeft: 20,
+  },
+  footer: {
+    flex: 1,
+    position: 'absolute',
+    left: 10,
+    right: 0,
+    bottom: 15,
   },
 });
