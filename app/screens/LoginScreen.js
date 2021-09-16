@@ -145,8 +145,8 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     position: 'absolute',
-    left: 5,
+    left: 10,
     right: 0,
-    bottom: 0,
+    bottom: 15,
   },
 });

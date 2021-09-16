@@ -10,7 +10,7 @@ import { restApiConfig } from '../config';
 export default function MainScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [text, setText] = useState('Not Scanned');
+  const [text, setText] = useState('');
   const [serving, setServing] = React.useState('');
   const [barcode, setBarcode] = React.useState('');
 
@@ -60,7 +60,9 @@ export default function MainScreen({navigation}) {
           </View>
           <Text style={styles.maintext}>{text}</Text>
           {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)}/>}
-            <TextInput placeholder="Serving" onChangeText={serving => setServing(serving)} />
+            <TextInput 
+                style={styles.input} 
+                placeholder="Enter Serving Size" onChangeText={serving => setServing(serving)} />
             <Button title="Get Calories" onPress={() => getCalories(barcode, serving)} />
             <Button title="Type Ingredients Manually" onPress={() => navigation.navigate('Ingredients')} />
             <Button title="Show History" onPress={() => navigation.navigate('HistoryScreen')} />
@@ -122,5 +124,12 @@ const styles = StyleSheet.create({
   textsize: {
       fontSize: 16,
       margin: 20,
+  },
+
+  input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
   },
 });

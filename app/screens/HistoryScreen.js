@@ -60,8 +60,18 @@ export default function HistoryScreen({navigation})  {
                 <Text>Showing History for {user.displayName}. </Text>
                 <ScrollView horizontal={true}>
                 <Table borderStyle={{borderWidth: 1, borderColor: '#ffa1d2'}}>
-                    <Row data={state.HeadTable} style={styles.HeadStyle} textStyle={styles.TableText}/>
-                    <Rows data={state.DataTable} style={styles.TableText} />
+                    <Row 
+                        data={state.HeadTable} 
+                        widthArr={state.widthArr}
+                        style={styles.HeadStyle} 
+                        textStyle={styles.TableText}
+                    />
+                    <Rows 
+                        data={state.DataTable} 
+                        widthArr={state.widthArr}
+                        style={styles.DataStyle} 
+                        textStyle={styles.TableText}
+                    />
                 </Table>
                 </ScrollView>
                 <Button title="Back to Main Screen" onPress={() => navigation.navigate('MainScreen')} />
@@ -85,11 +95,19 @@ container: {
     justifyContent: 'center' 
   },
   HeadStyle: { 
-    height: 50,
+    height: 40,
+    width: 1000,
     alignContent: "center",
+    flexDirection: 'row',
     backgroundColor: '#ffe0f0'
   },
-  TableText: { 
+  DataStyle: { 
+    width: 1000,
+    alignContent: "center",
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+  },
+  TableText: {
     margin: 10
   }
 });
