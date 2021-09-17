@@ -8,6 +8,7 @@ class LoadingScreen extends React.Component {
         this.isLoggedIn();
     }
 
+    // manage screens based on the authentication status
     isLoggedIn = () => {
         firebase.auth().onAuthStateChanged((usr) => {
             if (usr) {

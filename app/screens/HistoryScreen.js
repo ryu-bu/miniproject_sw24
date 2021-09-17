@@ -6,10 +6,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import { ScrollView } from '@react-navigation/native';
 
 export default function HistoryScreen({navigation})  {
+    // get the current user info
     const user = firebase.auth().currentUser;
-    // const state = {
-    //     HeadTable: ['Product Name', 'Servings', 'Calories', 'Date', 'Barcode'],
-    // };
     const dataTest = [];
 
     const [state, setState] = useState({
@@ -17,14 +15,16 @@ export default function HistoryScreen({navigation})  {
         DataTable: []
     })
 
+    const [calories, setCalories] = useState(0);
     const [isLoading, setLoading] = useState(true);
     
-
+    // get reords from the firestore
     const docRef = firebase.firestore().collection("Users").doc(user.uid).collection("calories-record");
     useEffect(() => {
         docRef.get()
         .then((collection) => {
             var dataTable = [];
+            var totalCalories = 0;
             collection.forEach(doc => {
                 const temp_record = [];
                 var dt = new Date(doc.data().record_time);
@@ -32,15 +32,17 @@ export default function HistoryScreen({navigation})  {
                 console.log(newTime);
                 temp_record.push(doc.data().product_name, doc.data().servings, doc.data().calories, newTime, doc.data().barcode);
 
+                totalCalories += parseInt(doc.data().calories);
                 // put the most recent record in the beginning
                 dataTable.unshift(temp_record);
-                // dataTest.unshift(doc.data());
             })
-            // console.log(dataTest);
+
+            // return the retrieved data using table
             setState({ 
                 HeadTable: ['Product Name', 'Servings', 'Calories', 'Date', 'Barcode'],
                 DataTable: dataTable 
             });
+            setCalories(totalCalories);
             setLoading(false);
         })
     }, []);
@@ -57,7 +59,7 @@ export default function HistoryScreen({navigation})  {
 
         return (
             <View style={styles.container}>
-                <Text>Showing History for {user.displayName}. </Text>
+                <Text>Showing History for {user.displayName}. Total Calories: {calories}</Text>
                 <ScrollView horizontal={true}>
                 <Table borderStyle={{borderWidth: 1, borderColor: '#ffa1d2'}}>
                     <Row 
@@ -80,12 +82,6 @@ export default function HistoryScreen({navigation})  {
 }
 
 const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
 container: { 
     flex: 1,
     padding: 18,
