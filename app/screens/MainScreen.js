@@ -71,6 +71,7 @@ export default function MainScreen({navigation}) {
   );
 };
 
+// API call using the barcode
 function getCalories(barcode, servings) {
     const user = firebase.auth().currentUser;
     axios
@@ -82,6 +83,8 @@ function getCalories(barcode, servings) {
         .then((res) => {
             console.log(res.data);
             alert(res.data.calories);
+            
+            // store the data into firestore
             firebase.firestore().collection("Users").doc(user.uid).collection("calories-record").doc(Date.now().toString())
                     .set({
                         barcode: barcode,
@@ -97,6 +100,7 @@ function getCalories(barcode, servings) {
         })
 }
 
+// show current user name
 function showName() {
     const user = firebase.auth().currentUser;
     console.log(user);
